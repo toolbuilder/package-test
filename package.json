@@ -1,0 +1,41 @@
+{
+ "name": "@toolbuilder/package-test",
+ "version": "0.1.0-rc0",
+ "description": "Converts ES unit tests to use package, creates a separate project, and runs the tests using a package pack file",
+ "keywords": [],
+ "main": "index.js",
+ "module": "src/index.js",
+ "bin": {
+  "@toolbuilder/package-test": "cli.js",
+  "package-test": "cli.js"
+ },
+ "files": [
+  "src"
+ ],
+ "scripts": {
+  "build": "npm-run-all --serial lint",
+  "lint": "eslint src test",
+  "test": "tape -r esm 'test/*_test.js'"
+ },
+ "eslintConfig": {
+  "extends": "@toolbuilder/eslint-config"
+ },
+ "dependencies": {
+  "command-line-args": "^5.1.1",
+  "command-line-usage": "^6.1.0",
+  "date-fns": "^2.12.0",
+  "enquirer": "^2.3.5",
+  "esm": "^3.2.25",
+  "execa": "^4.0.0",
+  "find-up": "^4.1.0",
+  "fs-extra": "^9.0.0",
+  "log-symbols": "^4.0.0",
+  "loglevel": "^1.6.8",
+  "rollup": "^2.7.2",
+  "rrdir": "^8.0.1"
+ },
+ "devDependencies": {
+  "@toolbuilder/eslint-config": ">=0.1.2",
+  "eslint": ">=6.8.0"
+ }
+}
