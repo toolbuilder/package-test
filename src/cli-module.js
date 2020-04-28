@@ -9,6 +9,7 @@ import fs from 'fs-extra'
 import { homedir, tmpdir } from 'os'
 import { format } from 'date-fns'
 import findUp from 'find-up'
+import chalk from 'chalk'
 
 log.setLevel('info')
 
@@ -26,7 +27,7 @@ const resolvePath = (defaultPath, pathOfSomeSort) => {
 
 const displayOptions = (options, optionDefinitions) => {
   for (const defn of optionDefinitions) {
-    console.log(`${defn.description} is ${options[defn.name]}`)
+    console.log(`${chalk.yellow(defn.description)} is ${chalk.bold(options[defn.name])}`)
   }
 }
 
@@ -42,7 +43,6 @@ const chooseDefaults = (packageJson, options) => {
     // Curious, NPM can't handle ':' in dates, and formatISO emits colons, but replace doesn't seem them as colons?
     const timePart = format(Date.now(), 'yyyy-MM-dd-kk-mm-ss')
     const tempPath = join(tmpdir(), `${prefix}-${timePart}`)
-    console.log(tempPath)
     options.at = tempPath
   }
   if (options.src == null) options.src = 'src'

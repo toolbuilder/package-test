@@ -45,7 +45,7 @@ export const optionDefinitions = [
     name: 'quiet',
     alias: 'q',
     type: Boolean,
-    description: 'non-interactive'
+    description: 'do not show NPM output'
   },
   {
     name: 'help',

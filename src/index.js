@@ -47,13 +47,14 @@ const buildTestDependencies = (packageJson, testDependencies) => {
 }
 
 const buildTestPackageJson = (options, packageJson, dependencies) => {
+  const relativeTestPath = relative(options.dir, options.test)
   return {
     name: 'pkgtest',
     version: '1.0.0',
     description: `Package testing for ${packageJson.name}`,
     main: 'index.js',
     scripts: {
-      test: `tape -r esm '${options.glob}'`
+      test: `tape -r esm '${relativeTestPath}/${options.glob}'`
     },
     author: '',
     license: 'MIT',

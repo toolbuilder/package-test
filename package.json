@@ -1,6 +1,6 @@
 {
  "name": "@toolbuilder/package-test",
- "version": "0.1.0-rc0",
+ "version": "0.1.0-rc2",
  "description": "Converts ES unit tests to use package, creates a separate project, and runs the tests using a package pack file",
  "keywords": [],
  "main": "index.js",
@@ -21,6 +21,7 @@
   "extends": "@toolbuilder/eslint-config"
  },
  "dependencies": {
+  "chalk": "^4.0.0",
   "command-line-args": "^5.1.1",
   "command-line-usage": "^6.1.0",
   "date-fns": "^2.12.0",
