@@ -11,12 +11,12 @@ import { runTest } from './index'
 import { optionDefinitions } from './options'
 import { optionsQueries } from './options-queries'
 
-log.setLevel('info')
-
 const untildify = pathWithTilde => homedir() ? pathWithTilde.replace(/^~(?=$|\/|\\)/, homedir()) : pathWithTilde
 
 const readPackageJson = async (packageDir) => {
-  const packageJsonPath = await findUp(join(packageDir, 'package.json'))
+  const searchStart = join(packageDir, 'package.json')
+  const packageJsonPath = await findUp(searchStart, { type: 'file', allowSymlinks: true })
+  if (packageJsonPath == null) throw new Error(`Could not find package.json at or above ${searchStart}`)
   return fs.readJSON(packageJsonPath)
 }
 
@@ -27,7 +27,7 @@ const resolvePath = (defaultPath, pathOfSomeSort) => {
 
 const displayOptions = (options, optionDefinitions) => {
   for (const defn of optionDefinitions) {
-    console.log(`${chalk.yellow(defn.description)} is ${chalk.bold(options[defn.name])}`)
+    log.debug(`${chalk.yellow(defn.description)} is ${chalk.bold(options[defn.name])}`)
   }
 }
 
@@ -50,17 +50,29 @@ const chooseDefaults = (packageJson, options) => {
   if (options.glob == null) options.glob = '**/*test.js'
 }
 
+const setLogLevel = (verbosity) => {
+  const levels = ['warn', 'info', 'debug', 'trace']
+  const index = (verbosity == null) ? 0 : Math.min(levels.length, verbosity.length)
+  log.setLevel(levels[index])
+}
+
 const main = async () => {
   const options = await commandLineArgs(optionDefinitions, process.argv)
-  if (options.help) { await generateHelp(); process.exit(0) }
-  if (options.interactive) await optionsQueries(options)
-  if (options.dir == null) options.dir = '.'
-  options.dir = resolvePath(process.cwd(), untildify(options.dir))
-  const packageJson = await readPackageJson(options.dir)
-  if (!options.interactive) chooseDefaults(packageJson, options)
-  resolveOptionDirectories(options)
-  displayOptions(options, optionDefinitions)
-  await runTest(packageJson, options)
+  try {
+    if (options.help) { await generateHelp(); process.exit(0) }
+    setLogLevel(options.verbose)
+    if (options.interactive) await optionsQueries(options)
+    if (options.dir == null) options.dir = '.'
+    options.dir = resolvePath(process.cwd(), untildify(options.dir))
+    const packageJson = await readPackageJson(options.dir)
+    if (!options.interactive) chooseDefaults(packageJson, options)
+    resolveOptionDirectories(options)
+    displayOptions(options, optionDefinitions)
+    await runTest(packageJson, options)
+  } catch (error) {
+    log.error(error)
+    displayOptions(options, optionDefinitions)
+  }
 }
 
 main()

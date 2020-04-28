@@ -13,9 +13,8 @@ const confirmPrompt = async (message) => {
 
 export const optionsQueries = async (options) => {
   for (const defn of optionDefinitions) {
-    if (defn.name === 'help' || defn.name === 'quiet') continue
+    if (defn.query !== true) continue
     if (options[defn.name] == null) {
-      // TODO: handle defn.multiple === true
       if (defn.type === String) { options[defn.name] = await inputPrompt(`What is ${defn.description}?`, '') }
       if (defn.type === Boolean) { options[defn.name] = await confirmPrompt(`Is this package ${defn.description}?`) }
     }

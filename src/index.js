@@ -3,6 +3,7 @@ import fs from 'fs-extra'
 import { dirname, join, relative, resolve } from 'path'
 import rrdir from 'rrdir'
 import { makePackageTests } from './make-package-tests'
+import log from 'loglevel'
 
 const transformTests = async (packageName, options) => {
   const sourceDirectory = options.src
@@ -13,7 +14,9 @@ const transformTests = async (packageName, options) => {
   // Walk testDirectory, and rollup each test individually, remembering dependencies
   for await (const entry of rrdir(testDirectory, { exclude: ['node_modules'], include: testGlobs })) {
     if (entry.directory) continue
+    log.trace(`Translating ${entry.path}`)
     const outputPath = resolve(targetDirectory, relative(dirname(testDirectory), entry.path))
+    log.trace(`Writing translated test to ${outputPath}`)
     const pluginOptions = {
       pkgName: packageName,
       relativeSrcPath: relative(dirname(entry.path), sourceDirectory)
@@ -72,18 +75,21 @@ const buildPackPath = (packageJson) => {
 }
 
 const runNpmCommand = async (command, options) => {
-  console.log(`RUNNING npm ${command}`)
+  log.info(`RUNNING npm ${command}`)
   const { stdout, stderr } = await execa('npm', [command])
   if (!options.quiet) {
-    console.log(stdout)
-    console.log(stderr)
+    log.debug(stdout)
+    log.debug(stderr)
   }
 }
 
 export const runTest = async (packageJson, options) => {
   const testDirectory = resolve(options.at, relative(options.dir, options.test))
+  log.info(`Building test package at ${options.at}`)
   await fs.ensureDir(testDirectory)
+  log.debug('Transforming unit tests')
   const dependencies = await transformTests(packageJson.name, options)
+  log.debug('Building package.json for temporary test package')
   const testPackageJson = buildTestPackageJson(options, packageJson, dependencies)
   await fs.writeJSON(join(options.at, 'package.json'), testPackageJson, { spaces: 2 })
   const cwd = process.cwd()
@@ -91,13 +97,16 @@ export const runTest = async (packageJson, options) => {
     // NPM is meant only to be used via CLI, not programmatically - great
     // npm pack only drops *.tgz pack file in cwd
     await process.chdir(options.dir)
+    log.trace(`In ${options.dir}`)
     await runNpmCommand('pack', options)
     const packPath = buildPackPath(packageJson)
     await fs.move(join(options.dir, packPath), join(options.at, packPath), { overwrite: true })
     await process.chdir(options.at)
+    log.trace(`In ${options.at}`)
     await runNpmCommand('install', options)
     await runNpmCommand('test', options)
   } finally {
     await process.chdir(cwd)
+    log.trace(`In ${cwd}`)
   }
 }

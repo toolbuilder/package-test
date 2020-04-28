@@ -1,9 +1,17 @@
 {
  "name": "@toolbuilder/package-test",
- "version": "0.1.0-rc3",
+ "version": "0.1.0-rc4",
  "description": "Tests package pack file in a separate, temporary package, generates tests by transforming existing unit tests",
  "keywords": [],
- "main": "index.js",
+ "homepage": "https://github.com/toolbuilder/package-test#readme",
+ "bugs": {
+  "url": "https://github.com/toolbuilder/package-test/issues"
+ },
+ "repository": {
+  "type": "git",
+  "url": "https://github.com/toolbuilder/package-test.git"
+ },
+"main": "index.js",
  "module": "src/index.js",
  "bin": {
   "@toolbuilder/package-test": "cli.js",
