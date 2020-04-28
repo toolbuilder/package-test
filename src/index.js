@@ -1,8 +1,8 @@
-import { dirname, join, relative, resolve } from 'path'
-import fs from 'fs-extra'
-import { makePackageTests } from './make-package-tests'
-import rrdir from 'rrdir'
 import execa from 'execa'
+import fs from 'fs-extra'
+import { dirname, join, relative, resolve } from 'path'
+import rrdir from 'rrdir'
+import { makePackageTests } from './make-package-tests'
 
 const transformTests = async (packageName, options) => {
   const sourceDirectory = options.src

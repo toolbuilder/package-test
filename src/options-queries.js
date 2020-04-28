@@ -1,5 +1,5 @@
-import { optionDefinitions } from './options'
 import { Confirm, Input } from 'enquirer'
+import { optionDefinitions } from './options'
 
 const inputPrompt = async (message, initial = '') => {
   const prompt = new Input({ message, initial })

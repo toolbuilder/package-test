@@ -1,7 +1,7 @@
 {
  "name": "@toolbuilder/package-test",
- "version": "0.1.0-rc2",
- "description": "Converts ES unit tests to use package, creates a separate project, and runs the tests using a package pack file",
+ "version": "0.1.0-rc3",
+ "description": "Tests package pack file in a separate, temporary package, generates tests by transforming existing unit tests",
  "keywords": [],
  "main": "index.js",
  "module": "src/index.js",
