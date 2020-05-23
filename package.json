@@ -11,7 +11,7 @@
   "type": "git",
   "url": "https://github.com/toolbuilder/package-test.git"
  },
-"main": "index.js",
+ "main": "index.js",
  "module": "src/index.js",
  "bin": {
   "@toolbuilder/package-test": "cli.js",
@@ -32,6 +32,7 @@
   "chalk": "^4.0.0",
   "command-line-args": "^5.1.1",
   "command-line-usage": "^6.1.0",
+  "cuid": "^2.1.8",
   "date-fns": "^2.12.0",
   "enquirer": "^2.3.5",
   "esm": "^3.2.25",

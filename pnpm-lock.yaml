@@ -2,6 +2,7 @@ dependencies:
   chalk: 4.0.0
   command-line-args: 5.1.1
   command-line-usage: 6.1.0
+  cuid: 2.1.8
   date-fns: 2.12.0
   enquirer: 2.3.5
   esm: 3.2.25
@@ -268,6 +269,10 @@ packages:
       node: '>= 8'
     resolution:
       integrity: sha512-PD6G8QG3S4FK/XCGFbEQrDqO2AnMMsy0meR7lerlIOHAAbkuavGU/pOqprrlvfTNjvowivTeBsjebAL0NSoMxw==
+  /cuid/2.1.8:
+    dev: false
+    resolution:
+      integrity: sha512-xiEMER6E7TlTPnDxrM4eRiC6TRgjNX9xzEZ5U/Se2YJKr7Mq4pJn/2XEHjl3STcSh96GmkHPcBXLES8M29wyyg==
   /date-fns/2.12.0:
     dev: false
     resolution:
@@ -1270,6 +1275,7 @@ specifiers:
   chalk: ^4.0.0
   command-line-args: ^5.1.1
   command-line-usage: ^6.1.0
+  cuid: ^2.1.8
   date-fns: ^2.12.0
   enquirer: ^2.3.5
   eslint: '>=6.8.0'

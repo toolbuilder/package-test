@@ -1,5 +1,6 @@
 import chalk from 'chalk'
 import commandLineArgs from 'command-line-args'
+import cuid from 'cuid'
 import { format } from 'date-fns'
 import findUp from 'find-up'
 import fs from 'fs-extra'
@@ -37,13 +38,16 @@ const resolveOptionDirectories = (options) => {
   })
 }
 
+const makeTempPath = (prefix) => {
+  // formatISO emits colons for the time part, which can be problematic on command lines as NPM parameters
+  const timePart = format(Date.now(), 'yyyy-MM-dd-kk-mm')
+  return join(tmpdir(), `${prefix}-${timePart}-${cuid.slug()}`) // slug provides uniqueness in same minute
+}
+
 const chooseDefaults = (packageJson, options) => {
   if (options.at == null) {
     const prefix = packageJson.name.replace('@', '').replace('/', '-')
-    // Curious, NPM can't handle ':' in dates, and formatISO emits colons, but replace doesn't seem them as colons?
-    const timePart = format(Date.now(), 'yyyy-MM-dd-kk-mm-ss')
-    const tempPath = join(tmpdir(), `${prefix}-${timePart}`)
-    options.at = tempPath
+    options.at = makeTempPath(prefix)
   }
   if (options.src == null) options.src = 'src'
   if (options.test == null) options.test = 'test'
