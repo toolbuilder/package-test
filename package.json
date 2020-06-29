@@ -1,6 +1,6 @@
 {
  "name": "@toolbuilder/package-test",
- "version": "0.1.0",
+ "version": "0.1.1",
  "description": "Tests package pack file in a separate, temporary package, generates tests by transforming existing unit tests",
  "keywords": [],
  "homepage": "https://github.com/toolbuilder/package-test#readme",
