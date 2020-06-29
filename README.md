@@ -1,5 +1,7 @@
 # Package-Test
 
+This package is deprecated. Please use [@toolbuilder/rollup-config-pkg-test](https://github.com/toolbuilder/rollup-config-pkgtest) instead. The Rollup configuration `@toolbuilder/rollup-config-pkg-test` and plugins it uses are  the result of refactoring this package. The plugins are far more configurable than this package.
+
 This package tests the output of 'npm pack' in a separate, temporary, project. It does the following:
 
 * Builds a temporary package in a temporary directory
